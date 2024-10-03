@@ -64,18 +64,34 @@ const displayVideos = (videos) => {
     console.log(item);
     //create a video card-box
     const videoCard = document.createElement('div');
-    videoCard.classList="card card-compact";
+    videoCard.classList = "card card-compact";
     videoCard.innerHTML = `
-    <figure>
+    <figure class="h-[200px] relative">
     <img
       src=${item.thumbnail}
+      class="h-full w-full object-cover"
       alt="Shoes" />
+      ${item.others.posted_date.length == 0 ? "" :
+        `<span class="absolute right-2 bottom-4 text-white
+         bg-black rounded p-1">${getTimeString(item.others.posted_date)}
+         </span>
+        `
+      }
   </figure>
-  <div className="card-body">
-    <h2 className="card-title">Shoes!</h2>
-    <p>If a dog chews shoes whose shoes does he choose?</p>
-    <div className="card-actions justify-end">
-      <button className="btn btn-primary">Buy Now</button>
+  <div class="px-0 py-2 flex gap-2">
+    <div> 
+    <img class="w-10 h-10 rounded-full object-cover"
+     src=${item.authors[0].profile_picture} />
+    </div>
+    <div> 
+   <h2 class="font-bold">${item.title}</h2>
+   <div class="flex items-center gap-2">
+   <p class="text-gray-400">${item.authors[0].profile_name}</p>
+    ${item.authors[0].verified == true ? `<img class="w-5 h-5 rounded-full object-cover"
+    src="https://img.icons8.com/?size=48&id=D9RtvkuOe31p&for
+    mat=png" />`: ""}
+   </div>
+   <p></p>
     </div>
   </div>
     
@@ -83,4 +99,12 @@ const displayVideos = (videos) => {
     //adding the video card in the video container
     videoContainer.appendChild(videoCard);
   })
+}
+
+function getTimeString(time){
+  const hour=parseInt(time/3600);
+  let remainingSecond=time%3600;
+  const minute=parseInt(remainingSecond/60);
+  remainingSecond=remainingSecond % 60;
+  return `${hour}hr ${minute}min ${remainingSecond}sec ago`
 }
