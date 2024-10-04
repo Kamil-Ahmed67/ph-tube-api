@@ -9,8 +9,9 @@ const loadCategories = async () => {
 }
 loadCategories();
 /****LOAD VIDEOS******** */
-const loadVideos = async () => {
-  fetch('https://openapi.programming-hero.com/api/phero-tube/videos')
+const loadVideos = async (searchTex = "") => {
+  fetch(`https://openapi.programming-hero.com/api/phero-tube/videos?title=${searchTex}
+    `)
     .then((response) => response.json())
     .then(data => displayVideos(data.videos))
     .catch((error) => console.log(error))
@@ -96,7 +97,7 @@ const displayVideos = (videos) => {
     videoContainer.innerHTML=
     `
     <div class="min-h-[300px] flex flex-col gap-5 justify-center items-center">
-    <img src="assets/icon.png" />
+    <img src="assets/Icon.png" />
     <h2 class="text-center text-xl font-bold ">
     No Content Here in this Category
     </h2>
@@ -175,3 +176,7 @@ function getTimeString(time){
   remainingSecond=remainingSecond % 60;
   return `${hour}hr ${minute}min ${remainingSecond}sec ago`
 }
+
+document.getElementById('search-input').addEventListener("keyup",(event)=>{
+  loadVideos(event.target.value);
+})
